@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Book your trip";
+}
+<h2 style="color:#0063a4;">@ViewData["Title"]</h2>
+<form method="post">
+	<div class="container">
+		<label>Select Dates for travel</label>
+		<div class="row">
+			<div class="col-sm-3">
+				<label asp-for="DateRange.StartDate"></label>
+			</div>
+			<div class="col-sm-6">				
+				<input id="departureDate" asp-for="DateRange.StartDate" />
+				<span class="text-danger" asp-validation-for="DateRange.StartDate"></span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<label asp-for="DateRange.EndDate"></label>
+			</div>
+			<div class="col-sm-6">						
+				<input id="returnDate" asp-for="DateRange.EndDate" />
+				<span class="text-danger" asp-validation-for="DateRange.EndDate"></span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<input id="submit" type="submit" />
+			</div>
+		</div>
+
+	</div>
+</form>
