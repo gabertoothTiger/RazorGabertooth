@@ -16,13 +16,13 @@ namespace TandTDataAccess.Stores
 			_config = config;
 		}
 
-		public async Task<Traveler> GetTravelerAsync(string firstName, string lastName)
+		public async Task<TravelerDto> GetTravelerAsync(string firstName, string lastName)
 		{
 			var connectionString = _config.GetConnectionString("DefaultConnection");
 			using (var sqlConnection = new SqlConnection(connectionString))
 			{
-				var data = await sqlConnection.QueryAsync("[dbo].[usp_Trip_SelectByTraveler]", new { firstName, lastName }, commandType: CommandType.StoredProcedure);
-				return data.Select(d => new Traveler(d.Id, d.FirstName, d.LastName)).FirstOrDefault();
+				var data = await sqlConnection.QueryAsync("[dbo].[usp_Traveler_Select]", new { firstName, lastName }, commandType: CommandType.StoredProcedure);
+				return data.Select(d => new TravelerDto(d.Id, d.FirstName, d.LastName)).FirstOrDefault();
 			}
 		}
 	}

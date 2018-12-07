@@ -8,6 +8,6 @@ namespace TandTDataAccess.Stores
 {
 	public interface ITravelerStore
 	{
-		Task<Traveler> GetTravelerAsync(string firstName, string lastName);
+		Task<TravelerDto> GetTravelerAsync(string firstName, string lastName);
 	}
 }

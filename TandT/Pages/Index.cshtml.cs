@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
-using HelloRazorWorld.Models;
+using TandT.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
-using TandTDataAccess.Stores;
+using System.ComponentModel.DataAnnotations;
+using TandTBusinessProcess.TripBooking;
+using TandTBusinessProcess.Entities;
+using Microsoft.Extensions.Logging;
 
-namespace HelloRazorWorld.Pages
+namespace TandT.Pages
 {
 	public class IndexModel : PageModel
 	{
-		private readonly ITravelerStore _travelerStore;
-		public IndexModel(ITravelerStore travelerStore)
+		private readonly ITripBooker _tripBooker;
+		private readonly ILogger _logger;
+		public IndexModel(ITripBooker tripBooker, ILogger<IndexModel> logger)
 		{
-			_travelerStore = travelerStore;
+			_tripBooker = tripBooker;
+			_logger = logger;
 		}
 
-		public string Message { get; set; } 
+		public string Message { get; set; }
+		[BindProperty]
+		[Required]
+		[Display(Name = "First Name")]
+		public string FirstName { get; set; }
+		[BindProperty]
+		[Required]
+		[Display(Name = "Last Name")]
+		public string LastName { get; set; }
 		[BindProperty]
 		public DateRange DateRange { get; set; }
 
@@ -36,7 +48,16 @@ namespace HelloRazorWorld.Pages
 				return Page();
 			}
 
-			var traveler = await _travelerStore.GetTravelerAsync("Gabe", "Schmidt").ConfigureAwait(true);
+			try
+			{
+				await _tripBooker.BookTripAsync(new Trip(FirstName, LastName, DateRange.StartDate, DateRange.EndDate)).ConfigureAwait(true);
+			}
+			catch(InvalidOperationException ex)
+			{
+				ModelState.AddModelError(string.Empty, ex.Message);
+				_logger.LogError(ex.Message);
+				return Page();
+			}
 			
 			return RedirectToPage($"/Confirmation", new { departureDate = DateRange.StartDate, returnDate = DateRange.EndDate});
 		}

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace HelloRazorWorld.Pages
+namespace TandT.Pages
 {
 	public class ConfirmationModel : PageModel
 	{

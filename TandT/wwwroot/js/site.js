@@ -1,13 +1,44 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
-//$(document).ready(function () {
-//	$('#submit').click(function () {
-//		if ($('#departureDate').val() && $('#returnDate').val()) {
-//			if ($('#departureDate').val() >= $('#returnDate').val()) {
-//				alert('departure date must come before return date');
-//				$('form').bind('submit', function (e) { e.preventDefault(); });
-//			}
-//		}	
-//	});	
-//});
+$(document).ready(function () {
+	function getModelPrefix(fieldName) {
+		return fieldName.substr(0, fieldName.lastIndexOf(".") + 1);
+	}
+
+	function escapeAttributeValue(value) {
+		return value.replace(/([!"#$%&'()*+,./:;<=>?@\[\\\]^`{|}~])/g, "\\$1");
+	} 
+
+	$.validator.addMethod("dategreaterthantoday",
+		function (value, element, parameters) {
+			let currentDate = new Date().setHours(0, 0, 0, 0);			
+			let dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
+			return dateToValidate >= currentDate;
+		});
+
+	$.validator.unobtrusive.adapters.add("dategreaterthantoday", [], function (options) {
+		options.rules.dategreaterthantoday = {};
+		options.messages["dategreaterthantoday"] = options.message;
+	});
+
+	$.validator.addMethod("dategreaterthan",
+		function (value, element, parameters) {
+			let other = new Date(parameters.other.value.replace(/-/g, '\/').replace(/T.+/, ''));
+			let dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
+			return dateToValidate > other;
+		});
+
+	$.validator.unobtrusive.adapters.add("dategreaterthan", ["other"], function (options) {
+		var prefix = getModelPrefix(options.element.name),
+			other = options.params.other,
+			fullOtherName = prefix + other,
+			element = $(options.form).find(":input").filter("[name='" + escapeAttributeValue(fullOtherName) + "']")[0];			
+
+		options.rules["dategreaterthan"] = {
+			other: element
+		};
+
+		options.messages["dategreaterthan"] = options.message; 
+	});
+});

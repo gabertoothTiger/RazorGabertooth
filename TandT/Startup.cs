@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TandTDataAccess.Commanders;
 using TandTDataAccess.Stores;
+using TandT.Middleware;
+using TandTBusinessProcess.TripBooking;
 
-namespace HelloRazorWorld
+namespace TandT
 {
 	public class Startup
 	{
@@ -33,12 +31,22 @@ namespace HelloRazorWorld
 			});
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-			services.AddTransient<ITravelerStore, TravelerStore>();
+			ConfigureDI(services);
+		}
+
+		private static void ConfigureDI(IServiceCollection services)
+		{
+			services.AddTransient<ITravelerStore, AdoDotNetTravelerStore>();
+			services.AddTransient<ITripStore, TripStore>();
+			services.AddTransient<ITravelerCommander, TravelerCommander>();
+			services.AddTransient<ITripCommander, TripCommander>();
+			services.AddTransient<ITripBooker, TripBooker>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+			app.UseRequestLogging();
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
