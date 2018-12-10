@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Travel and Transport</title>
+    <title>@ViewData["Title"] - Gabertooth Productions</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -18,11 +18,11 @@
 </head>
 <body>
 	<div class="row" style="height:75px">
-		<a asp-page="/Index" class="navbar-brand navbar-fixed-top"><img src="~/images/TATLogo2.png" /></a>
+		<a asp-page="/Index" class="navbar-brand navbar-fixed-top"><img src="~/images/Gabertooth - small.png" /></a>
 	</div>
 	<div class="row">
 		<nav class="navbar navbar-inverse">
-			<div class="container">
+			<div class="container pull-right">
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a asp-page="/About">ABOUT US</a></li>
@@ -40,7 +40,7 @@
 		@RenderBody()
 		<hr />
 		<footer>
-			<p>&copy; @DateTime.Now.Year - Travel and Transport</p>
+			<p>&copy; @DateTime.Now.Year - Gabertooth Productions, Inc.</p>
 		</footer>
 	</div>
 
@@ -50,17 +50,6 @@
 		<script src="~/js/site.js" asp-append-version="true"></script>
 		<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-		@*<script>
-			$.validator.addMethod("dategreaterthantoday",
-				function (value, element, parameters) {
-					return value >= new Date().getDate();
-				});
-
-			$.validator.unobtrusive.adapters.add("dategreaterthantoday", [], function (options) {
-				options.rules.dategreaterthantoday = {};
-				options.messages["dategreaterthantoday"] = options.message;
-			});
-		</script>*@
 	</environment>
 	<environment exclude="Development">
 		<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
@@ -76,6 +65,16 @@
 				integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
 		</script>
 		<script src="~/js/site.min.js" asp-append-version="true"></script>
+		<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js" 
+				asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+				crossorigin="anonymous"
+				integrity="sha384-ZV0USgqC1pX+52xaabbFtDXU8PetUNUUP1UWjUKYaHtCrTAO/xTzF9V9/KL1J7Dl">
+		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"
+				asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+				crossorigin="anonymous"
+				integrity="sha384-R3vNCHsZ+A2Lo3d5A6XNP7fdQkeswQWTIPfiYwSpEP3YV079R+93YzTeZRah7f/F">
+		</script>
 	</environment>
 
 	@RenderSection("Scripts", required: false)

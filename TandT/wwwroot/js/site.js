@@ -12,8 +12,8 @@ $(document).ready(function () {
 
 	$.validator.addMethod("dategreaterthantoday",
 		function (value, element, parameters) {
-			let currentDate = new Date().setHours(0, 0, 0, 0);			
-			let dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
+			var currentDate = new Date().setHours(0, 0, 0, 0),			
+				dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
 			return dateToValidate >= currentDate;
 		});
 
@@ -24,8 +24,8 @@ $(document).ready(function () {
 
 	$.validator.addMethod("dategreaterthan",
 		function (value, element, parameters) {
-			let other = new Date(parameters.other.value.replace(/-/g, '\/').replace(/T.+/, ''));
-			let dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
+			var other = new Date(parameters.other.value.replace(/-/g, '\/').replace(/T.+/, '')),
+				dateToValidate = new Date(value.replace(/-/g, '\/').replace(/T.+/, ''));
 			return dateToValidate > other;
 		});
 
